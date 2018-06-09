@@ -1,0 +1,3 @@
+rootProject.name = 'UserAuth'
+
+include ':app'
