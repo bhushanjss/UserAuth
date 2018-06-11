@@ -10,12 +10,25 @@ import {
   Text,
   View
 } from 'react-native';
+import firebase from 'firebase';
 
 import { Header, Button } from './components/common';
 
 type Props = {};
 
 class App extends Component<Props> {
+
+componentWillMount() {
+  firebase.initializeApp({
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    projectId: process.env.FIREBASE_PROJECTID,
+    storageBucket: '',
+    messagingSenderId: process.env.FIREBASE_MESSENGER_ID
+  });
+}
+
   render() {
     return (
       <View style={styles.container}>
