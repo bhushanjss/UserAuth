@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 
-import { Header, Button } from './components/common';
+import { Header } from './components/common/';
+import LoginForm from './components/LoginForm';
 
 type Props = {};
 
@@ -31,31 +32,20 @@ componentWillMount() {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Header headerText='Authentication' />
-        <Button />
+        <View style={styles.constainerStyle}>
+          <LoginForm />
+        </View>        
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const styles = {
+  constainerStyle: {
+    paddingTop: 100
+  }
+}
 
 export default App;
