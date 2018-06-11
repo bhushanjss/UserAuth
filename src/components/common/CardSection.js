@@ -1,15 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { View } from 'react-native';
 
-import {View, Text, StyleSheet} from 'react-native';
+const CardSection = (props) => {
+  return (
+    <View style={styles.containerStyle}>
+      {props.children}
+    </View>
+  );
+};
 
-class CardSection extends Component<props> {
-	render() {
-		return (
-			<View>
-			<Text>Card Section Text</Text>
-			</View>
-		);
-	}
-}
+const styles = {
+  containerStyle: {
+    borderBottomWidth: 1,
+    padding: 5,
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    borderColor: '#ddd',
+    position: 'relative'
+  }
+};
 
 export { CardSection };

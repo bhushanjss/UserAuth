@@ -10,7 +10,8 @@ import {
   Text,
   View
 } from 'react-native';
-import Button from './components/common/Button';
+
+import { Header, Button } from './components/common';
 
 type Props = {};
 
@@ -18,9 +19,7 @@ class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.instructions}>
-          Welcome
-        </Text>
+        <Header headerText='Authentication' />
         <Button />
       </View>
     );
