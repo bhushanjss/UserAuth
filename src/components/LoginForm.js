@@ -4,32 +4,75 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 
-import { Button, Card, CardSection, Input } from './common';
+import { Button, Card, CardSection, Input, Spinner } from './common';
 
 type Props = {};
 
 class LoginForm extends Component<Props> {
 
-	state = { email: '', password: '', error: '' };
+	state = { email: '', password: '', error: '', loading: false, createUser: false };
 
 	onButtonPress() {
 		const {email, password} = this.state;
+		this.setState({ error: '' });
+    this.setState({ loading: true});
 
-		firebase.auth().signInWithEmailAndPassword(email, password)
-		.catch((error) => {
-			firebase.auth().createUserWithEmailAndPassword(email, password)
-			.catch((error) => {
-				console.log(error);
-				this.setState({ error: error.message});
-			})
-		});
+    if(!this.state.createUser) {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
+  		.catch(this.onLoginFail.bind(this));
+    } else {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
+      .catch(this.onCreateUserFail.bind(this));
+    }
 	}
+
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      error: '',
+      loading: false,
+      createUser: false
+    });
+  }
+
+  onLoginFail(error) {
+    this.setState({ error: error.message, loading: false});
+    if(error.message ===
+      'There is no user record corresponding to this identifier. The user may have been deleted.')
+      {
+        this.setState({ createUser: true });
+    }
+  }
+
+  onCreateUserFail(error) {
+    this.setState({ error: error.message, loading: false});
+  }
+  renderButton() {
+    if(this.state.loading) {
+      return <Spinner size="small" />
+    }
+    if(this.state.createUser) {
+      return (
+        <Button onPress={this.onButtonPress.bind(this)}>
+        Create User
+        </Button>
+      )
+    }
+    return (
+      <Button onPress={this.onButtonPress.bind(this)}>
+      Log In
+      </Button>
+    )
+  }
 
 	render() {
 		return(
 			<Card>
 				<CardSection >
-					<Input 
+					<Input
 						placeholder="user@gmail.com"
 						label="Email"
 						value={this.state.email}
@@ -37,7 +80,7 @@ class LoginForm extends Component<Props> {
 					/>
 				</CardSection>
 				<CardSection>
-					<Input 
+					<Input
 						placeholder="password"
 						label="Password"
 						secureTextEntry
@@ -49,12 +92,10 @@ class LoginForm extends Component<Props> {
 					{this.state.error}
 				</Text>
 				<CardSection>
-					<Button onPress={this.onButtonPress.bind(this)}>
-					Log In
-					</Button>
+					{this.renderButton()}
 				</CardSection>
 		</Card>
-		)		
+		)
 	}
 }
 
