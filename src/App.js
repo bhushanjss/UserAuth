@@ -6,8 +6,6 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
   View
 } from 'react-native';
 import firebase from 'firebase';
@@ -26,10 +24,10 @@ componentWillMount() {
   firebase.initializeApp(fireBaseKey);
 
   firebase.auth().onAuthStateChanged((user) => {
-    if(user) {
-      this.setState({loggedIn: true});
+    if (user) {
+      this.setState({ loggedIn: true });
     } else {
-      this.setState({loggedIn: false});
+      this.setState({ loggedIn: false });
     }
   });
 }
@@ -47,7 +45,7 @@ renderContent() {
     case false:
       return <LoginForm />;
     default:
-      return <Spinner size="large"/>;
+      return <Spinner size="large" />;
   }
 }
   render() {
@@ -66,6 +64,6 @@ const styles = {
   constainerStyle: {
     paddingTop: 100
   }
-}
+};
 
 export default App;

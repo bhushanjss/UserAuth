@@ -13,14 +13,14 @@ class LoginForm extends Component<Props> {
 	state = { email: '', password: '', error: '', loading: false, createUser: false };
 
 	onButtonPress() {
-		const {email, password} = this.state;
+		const { email, password } = this.state;
 		this.setState({ error: '' });
-    this.setState({ loading: true});
+    this.setState({ loading: true });
 
-    if(!this.state.createUser) {
+    if (!this.state.createUser) {
       firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSuccess.bind(this))
-  		.catch(this.onLoginFail.bind(this));
+      .catch(this.onLoginFail.bind(this));
     } else {
       firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(this.onLoginSuccess.bind(this))
@@ -39,44 +39,43 @@ class LoginForm extends Component<Props> {
   }
 
   onLoginFail(error) {
-    this.setState({ error: error.message, loading: false});
-    if(error.message ===
-      'There is no user record corresponding to this identifier. The user may have been deleted.')
-      {
+    this.setState({ error: error.message, loading: false });
+    if (error.message ===
+      'There is no user record corresponding to this identifier. The user may have been deleted.') {
         this.setState({ createUser: true });
     }
   }
 
   onCreateUserFail(error) {
-    this.setState({ error: error.message, loading: false});
+    this.setState({ error: error.message, loading: false });
   }
   renderButton() {
-    if(this.state.loading) {
-      return <Spinner size="small" />
+    if (this.state.loading) {
+      return <Spinner size="small" />;
     }
-    if(this.state.createUser) {
+    if (this.state.createUser) {
       return (
         <Button onPress={this.onButtonPress.bind(this)}>
         Create User
         </Button>
-      )
+      );
     }
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
       Log In
       </Button>
-    )
+    );
   }
 
 	render() {
-		return(
+		return (
 			<Card>
 				<CardSection >
 					<Input
 						placeholder="user@gmail.com"
 						label="Email"
 						value={this.state.email}
-						onChangeText={email => this.setState( { email })}
+						onChangeText={email => this.setState({ email })}
 					/>
 				</CardSection>
 				<CardSection>
@@ -85,7 +84,7 @@ class LoginForm extends Component<Props> {
 						label="Password"
 						secureTextEntry
 						value={this.state.password}
-						onChangeText={password => this.setState( { password })}
+						onChangeText={password => this.setState({ password })}
 					/>
 				</CardSection>
 				<Text style={styles.errorTextStyle}>
@@ -95,16 +94,16 @@ class LoginForm extends Component<Props> {
 					{this.renderButton()}
 				</CardSection>
 		</Card>
-		)
+  );
 	}
 }
 
 const styles = {
-	errorTextStyle : {
+	errorTextStyle: {
 		fontSize: 20,
 		alignSelf: 'center',
 		color: 'red'
 	}
-}
+};
 
 export default LoginForm;
